@@ -25,10 +25,12 @@ int CurrentIndex = 0;
  
  //hint: use sem_t and pthread_mutex_t
  
- 
  */
-
-
+ 
+sem_t TA_sleep;
+sem_t Chairs[3];
+sem_t TA_signal;
+pthread_mutex_t Chair_Mutex;
 
 //Declared Functions
 void *TA_Activity();
