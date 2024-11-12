@@ -26,7 +26,6 @@ int CurrentIndex = 0;
  //hint: use sem_t and pthread_mutex_t
  
  */
- 
 sem_t TA_sleep;
 sem_t Chairs[3];
 sem_t TA_signal;
@@ -78,23 +77,24 @@ int main(int argc, char* argv[])
 }
 
 void *TA_Activity()
-{
-    /* TODO
-	//TA is currently sleeping.
-
-    // lock
-    
-    //if chairs are empty, break the loop.
-
-	//TA gets next student on chair.
-
-    //unlock
-
-	//TA is currently helping the student
-     
+{     
      //hint: use sem_wait(); sem_post(); pthread_mutex_lock(); pthread_mutex_unlock()
-
-*/
+	do {
+		//TA is currently sleeping.
+		sem_wait(&TA_sleep);
+		// lock
+		pthread_mutex_lock(&Chair_Mutex);
+		//TA gets next student on chair.
+		if (CurrentIndex > 0) {
+			CurrentIndex--;
+			// Signal next student
+			sem_post(&TA_signal);
+		}
+		//unlock
+		pthread_mutex_unlock(&Chair_Mutex);
+		 //if chairs are empty, break the loop.
+	} while(1);
+	return NULL;
 }
 
 void *Student_Activity(void *threadID) 
