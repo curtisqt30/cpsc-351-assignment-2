@@ -118,4 +118,30 @@ void *Student_Activity(void *threadID)
      //hint: use sem_wait(); sem_post(); pthread_mutex_lock(); pthread_mutex_unlock()
 			
 	*/
+
+	int id = *(int*) threadID;
+	printf("Student %d needs help from the TA.\n", id);
+
+	if (ChairsCount < 3) {
+		ChairsCount++;
+		printf("Student %d sat on a chair. Waiting for the TA to be free.\n", id);
+
+		sem_post(&TA_sleep);
+
+		pthread_mutex_unlock(&Chair_Mutex);
+
+		sem_wait(&Students[id]);
+
+		pthread_mutex_lock(&Chair_Mutex);
+		ChairsCount--;
+		printf("Student %d left his/her chair. Chairs now taken: %d\n", id, ChairsCount);
+		pthread_mutex_unlock(&Chair_Mutex);
+
+		sem_post(&TA_signal);
+	}
+	else {
+		printf("Student %d didn't find any chair to sit on. Will return later.\n", id);
+		pthread_mutex_unlock(&Chair_Mutex);
+	}
+
 }
