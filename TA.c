@@ -81,12 +81,17 @@ void *TA_Activity()
      //hint: use sem_wait(); sem_post(); pthread_mutex_lock(); pthread_mutex_unlock()
 	do {
 		//TA is currently sleeping.
+		printf("TA is sleeping.\n")
 		sem_wait(&TA_sleep);
-		// lock
+
+		// lock chair count 
 		pthread_mutex_lock(&Chair_Mutex);
+
 		//TA gets next student on chair.
 		if (CurrentIndex > 0) {
+			printf("TA is helping a student.\n");
 			CurrentIndex--;
+			
 			// Signal next student
 			sem_post(&TA_signal);
 		}
