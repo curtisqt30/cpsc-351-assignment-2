@@ -1,12 +1,12 @@
 # Process Synchronization
 Fall 2024 CPSC 351-02 18007
 
-Assignement 02
+Assignment 02
 
 ## Student Info
 * Curtis Quan-Tran - cquantran@csu.fullerton.edu - Section 02
 * Raul Zabala - rczabala@csu.fullerton.edu - Section 02
-* Andres Loera - @csu.fullerton.edu - Section 02
+* Andres Loera - Andresloera45@csu.fullerton.edu@csu.fullerton.edu - Section 02
 
 ## How to Run
 * Language: C
