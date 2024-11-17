@@ -10,6 +10,8 @@ pthread_t TA;               //Separate Thread for TA.
 
 int ChairsCount = 0;
 int CurrentIndex = 0;
+int students_helped = 0;
+int total_students = 0;
 
 /*TODO
  
@@ -67,6 +69,8 @@ int main(int argc, char* argv[])
         printf("Number of Students specified. Creating %d threads.\n", number_of_students);
         number_of_students = atoi(argv[1]);
     }
+	
+	total_students = number_of_students;
         
     //Allocate memory for Students
     Students = (pthread_t*) malloc(sizeof(pthread_t) * number_of_students);
@@ -94,7 +98,8 @@ int main(int argc, char* argv[])
     }
 
     //Free allocated memory
-    free(Students); 
+    free(Students);
+	printf("Program finished successfully.\n");
 
     return 0;
 }
@@ -127,9 +132,17 @@ void *TA_Activity()
             // Simulate helping a student
             sleep(2);
             printf("TA finished helping a student.\n");
-
             sem_post(&TA_signal); // Signal the student that help is complete
-        }
+			
+			pthread_mutex_lock(&Chair_Mutex);
+			students_helped++;
+			pthread_mutex_unlock(&Chair_Mutex);
+			
+			if (students_helped == total_students) {
+				printf("All students have been helped, TA is done for the day.\n");
+				return NULL;
+			}
+		}
 
     } while (1);
 
