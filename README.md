@@ -17,6 +17,6 @@ Assignement 02
   4. Run the executable file in the terminal using ./ "file name" <number of students>
 
 ## Collaboration Notes
-* Curtis Quan-Tran:
-* Raul Zabala: Documentation
-* Andres Loera:
+* Curtis Quan-Tran: TA_Activity Function
+* Raul Zabala: Main and Documentation
+* Andres Loera: Student_Acitivity Function
