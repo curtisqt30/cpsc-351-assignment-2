@@ -20,6 +20,7 @@ struct MemoryBlock {
 };
 
 std::vector<MemoryBlock> memory_map;
+int memory_size = 2000; // Total memory size used in the assignment
 
 // Function to read the input file.
 std::vector<Process> read_input(const std::string& file_path) {
@@ -47,7 +48,9 @@ std::vector<Process> read_input(const std::string& file_path) {
 }
 
 // Function to simulate memory mapping
-void simulate_memory_map(std::vector<Process>& processes) {}
+void simulate_memory_map(std::vector<Process>& processes, int pages_sizes) {
+	return;
+}
 
 
 // Function to print the memory map 
@@ -64,6 +67,12 @@ void print_memory_map() {
 
 int main() {
 	std::vector<Process> processes = read_input("in1.txt");
-	simulate_memory_map(processes);
+	
+	// The page sizes to use in this assignment: Out1, Out2, Out3
+	int page_sizes[] = {100, 200, 400};
+	
+	simulate_memory_map(processes, page_size);
+	print_memory_map();
+	
 	return 0;
 }
