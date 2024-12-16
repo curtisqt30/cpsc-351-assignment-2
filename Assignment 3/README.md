@@ -11,5 +11,3 @@ Assignment 03
 ## Compile
 ```bash
 g++ main.cpp -o main
-
-
