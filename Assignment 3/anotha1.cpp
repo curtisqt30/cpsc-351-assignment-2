@@ -11,7 +11,7 @@ struct Process {
     int arrival_time;
     int lifetime;
     std::vector<int> address_space;
-    int completion_time = -1; // Completion time for turnaround calculation
+    int completion_time = -1; // for turnaround calculation
 };
 
 // Memory block structure
@@ -22,13 +22,13 @@ struct MemoryBlock {
     int page_number; 
 };
 
-// Globals
+// Globals variables
 std::vector<MemoryBlock> memory_map;
 int memory_size;
 int page_size;
 int current_time = 0; // Virtual clock
 
-// Initialize memory
+// Initialize memory blocks
 void initialize_memory() {
     memory_map.clear();
     memory_map.push_back({0, memory_size - 1, -1, -1});
@@ -62,7 +62,7 @@ std::vector<Process> read_input(const std::string &file_path) {
     return processes;
 }
 
-// Print Input Queue
+// Print Input Queue for debugging
 void print_input_queue(const std::queue<Process>& q) {
     std::cout << "\tInput Queue: [";
     std::queue<Process> temp = q;
@@ -74,7 +74,7 @@ void print_input_queue(const std::queue<Process>& q) {
     std::cout << "]\n";
 }
 
-// Print the memory map
+// Print the memory map for debugging
 void print_memory_map() {
     std::cout << "\tMemory Map:\n";
     for (const auto &block : memory_map) {
@@ -87,7 +87,7 @@ void print_memory_map() {
     }
 }
 
-// Release memory of completed processes
+// Release memory of completed processes safely
 void release_memory(int process_id) {
     for (auto &block : memory_map) {
         if (block.process_id == process_id) {
@@ -127,7 +127,7 @@ bool allocate_memory(const Process &process) {
             }
         }
 
-        if (!allocated) return false; // Memory allocation failed
+        if (!allocated) return false; // Memory allocation failed for this process
     }
 
     // Add new blocks after iteration to avoid invalidating iterators
@@ -150,7 +150,7 @@ void simulate(std::vector<Process> &processes) {
             }
         }
 
-        // Release memory for completed processes
+        // Release memory for completed processes and print memory map
         for (auto &process : processes) {
             if (process.completion_time == current_time) {
                 std::cout << "t = " << current_time << ": Process " 
@@ -160,7 +160,7 @@ void simulate(std::vector<Process> &processes) {
             }
         }
 
-        // Try to allocate memory for processes in the input queue
+        // Try to allocate memory for processes in the input queue safely
         std::queue<Process> temp_queue;
         while (!input_queue.empty()) {
             Process current = input_queue.front();
@@ -193,10 +193,10 @@ void simulate(std::vector<Process> &processes) {
         }
         if (all_completed && input_queue.empty()) break;
 
-        ++current_time; // Increment the virtual clock
+        ++current_time; // Increment the virtual clock to process next event
     }
 
-    // Calculate and print average turnaround time
+    // Calculate and print average turnaround time for all processes
     double total_turnaround_time = 0;
     for (const auto &process : processes) {
         total_turnaround_time += process.completion_time - process.arrival_time;
